@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlayerController;
+use App\Http\Controllers\Api\TournamentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,7 @@ use App\Http\Controllers\Api\PlayerController;
 Route::apiResource('players', PlayerController::class)->except([
     'update', 'destroy'
 ]);
+
+Route::get('tournaments',               [TournamentController::class, 'index'])->name('tournaments.index');
+Route::get('tournaments-game',          [TournamentController::class, 'game'])->name('tournaments.game');
+Route::get('tournaments/{id}',          [TournamentController::class, 'show'])->name('tournaments.show');

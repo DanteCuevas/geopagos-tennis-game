@@ -21,4 +21,11 @@ class Player extends Model
         'reaction'
     ];
 
+    public function scopeGender($query, $value)
+    {
+        return  $query->when($value, function ($query) use ($value) {
+                    $query->where('gender', $value);
+                });
+    }
+
 }
