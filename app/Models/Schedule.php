@@ -18,9 +18,9 @@ class Schedule extends Model
         'date_start'
     ];
 
-    public function match_users(): HasMany
+    public function match_players(): HasMany
     {
-        return $this->hasMany(MatchUser::class, 'schedule_id');
+        return $this->hasMany(MatchPlayer::class, 'schedule_id');
     }
 
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Tournament;
 use App\Models\Schedule;
 use App\Models\Player;
-use App\Models\MatchUser;
+use App\Models\MatchPlayer;
 
 class TournamentController extends Controller
 {
@@ -27,7 +27,7 @@ class TournamentController extends Controller
                 'schedules.match_users.player_two'
             ])
             ->find($id);
-            
+
         if(empty($tournament))
             return response()->json(['message'=>'Tournament does not exist'], 404);
         return $tournament;
@@ -64,7 +64,7 @@ class TournamentController extends Controller
                 array_push($newPlayers, $player);
                 array_push($matches, $data);
             }
-            MatchUser::insert($matches);
+            MatchPlayer::insert($matches);
             $players = $newPlayers;
             $round = $round/2;
             $number++;

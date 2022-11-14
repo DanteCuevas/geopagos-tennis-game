@@ -13,7 +13,7 @@ class CreateMatchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('match_users', function (Blueprint $table) {
+        Schema::create('match_players', function (Blueprint $table) {
             $table->id();
             $table->foreignId('schedule_id');
             $table->foreignId('player_one_id');
@@ -34,6 +34,6 @@ class CreateMatchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('match_users');
+        Schema::dropIfExists('match_players');
     }
 }

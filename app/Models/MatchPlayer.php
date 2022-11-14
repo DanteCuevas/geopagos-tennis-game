@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MatchUser extends Model
+class MatchPlayer extends Model
 {
     use HasFactory;
 
-    protected $table = 'match_users';
+    protected $table = 'match_players';
 
     protected $fillable = [
         'schedule_id',
