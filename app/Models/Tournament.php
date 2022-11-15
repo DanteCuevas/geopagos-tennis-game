@@ -37,4 +37,41 @@ class Tournament extends Model
         return $this->hasMany(Schedule::class, 'tournament_id');
     }
 
+    public function scopeDateStart($query, $value)
+    {
+        return  $query->when($value, function ($query) use ($value) {
+                    $query->where('date_start', $value);
+                });
+    }
+
+    public function scopeDateEnd($query, $value)
+    {
+        return  $query->when($value, function ($query) use ($value) {
+                    $query->where('date_end', $value);
+                });
+    }
+
+    public function scopeGender($query, $value)
+    {
+        return  $query->when($value, function ($query) use ($value) {
+                    $query->where('gender', $value);
+                });
+    }
+
+    public function scopeWinnerId($query, $value)
+    {
+        return  $query->when($value, function ($query) use ($value) {
+                    $query->where('winner_id', $value);
+                });
+    }
+
+    public function scopeFilterWinner($query, $value)
+    {
+        return  $query->when($value, function ($query) use ($value) {
+                    $query->whereHas('winner', function ($query) use ($value) {
+                        $query->where('first_name', 'LIKE', '%'.$value.'%');
+                    });
+                });
+    }
+
 }

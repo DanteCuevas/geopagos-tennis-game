@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Tournament\TournamentIndexRequest;
 use App\Models\Tournament;
 use App\Models\Schedule;
 use App\Models\Player;
@@ -13,9 +14,15 @@ use App\Services\TournamentService;
 class TournamentController extends Controller
 {
 
-    public function index()
+    public function index(TournamentIndexRequest $request)
     {
-        $tournament = Tournament::paginate(20);
+        $tournament = Tournament::with('winner')
+            ->dateStart($request->date_start)
+            ->dateEnd($request->date_end)
+            ->gender($request->gender)
+            ->winnerId($request->winner_id)
+            ->filterWinner($request->winner_name)
+            ->paginate(20);
         return $tournament;
     }
 
@@ -38,7 +45,7 @@ class TournamentController extends Controller
     {
         $gender = collect(['male', 'female'])->random();
         $players = Player::gender($gender)->get()->shuffle();
-        
+
         $tournamentService->setGender($gender)->setPlayers($players)->play();
         return $tournamentService->resultResource();
     }
