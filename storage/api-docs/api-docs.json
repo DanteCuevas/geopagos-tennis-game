@@ -1,0 +1,199 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "danieldantecuevas@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:9099/api",
+            "description": "Demo API Server"
+        }
+    ],
+    "paths": {
+        "/tournaments": {
+            "get": {
+                "tags": [
+                    "TOURNAMENTS"
+                ],
+                "summary": "Get list of tournaments",
+                "description": "Returns list of projects",
+                "operationId": "getProjectsList",
+                "parameters": [
+                    {
+                        "name": "date_start",
+                        "in": "query",
+                        "description": "The date when start the tournament",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "The gender of the tournament",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "winner_id",
+                        "in": "query",
+                        "description": "The id of a player",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "winner_name",
+                        "in": "query",
+                        "description": "The name of a player",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TournamentIndexCollection"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TournamentIndexCollection": {
+                "title": "TournamentServiceCollection",
+                "description": "Resource collection of tournaments",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "$ref": "#/components/schemas/Tournament/properties/id"
+                                },
+                                "gender": {
+                                    "$ref": "#/components/schemas/Tournament/properties/gender"
+                                },
+                                "date_start": {
+                                    "$ref": "#/components/schemas/Tournament/properties/date_start"
+                                },
+                                "date_end": {
+                                    "$ref": "#/components/schemas/Tournament/properties/date_end"
+                                },
+                                "winner_id": {
+                                    "$ref": "#/components/schemas/Tournament/properties/winner_id"
+                                },
+                                "winner": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "first_name": {},
+                                            "last_name": {},
+                                            "gender": {}
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TournamentServiceCollection"
+                }
+            },
+            "Tournament": {
+                "title": "Tournament",
+                "description": "Model of tournament",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "description": "id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "gender": {
+                        "title": "Gender",
+                        "description": "Gender (male/female)",
+                        "type": "string",
+                        "example": "male"
+                    },
+                    "date_start": {
+                        "title": "Date start",
+                        "description": "Date start",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2022-01-01"
+                    },
+                    "date_end": {
+                        "title": "Date end",
+                        "description": "Date end",
+                        "type": "string",
+                        "format": "date",
+                        "example": "2022-01-01"
+                    },
+                    "winner_id": {
+                        "title": "Winner id",
+                        "description": "Winner id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01 00:00:00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Tournament"
+                }
+            }
+        }
+    }
+}
