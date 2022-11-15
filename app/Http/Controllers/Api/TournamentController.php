@@ -23,9 +23,9 @@ class TournamentController extends Controller
     {
         $tournament = Tournament::with([
                 'schedules',
-                'schedules.match_users',
-                'schedules.match_users.player_one',
-                'schedules.match_users.player_two'
+                'schedules.match_players',
+                'schedules.match_players.player_one',
+                'schedules.match_players.player_two'
             ])
             ->find($id);
 

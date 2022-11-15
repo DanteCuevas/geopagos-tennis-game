@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+//use App\Services\GameService;
 use App\Models\Tournament;
 use App\Models\Player;
 use App\Models\MatchPlayer;
@@ -14,6 +15,7 @@ Class TournamentService {
     private $totalPlayers;
     private $roundNumber;
     private $currentSchedule;
+    private $gameResult;
 
     public function __construct()
     {
@@ -21,6 +23,18 @@ Class TournamentService {
         $this->players      = $this->getInitialPlayers();
         $this->totalPlayers = $this->players->count();
         $this->roundNumber  = 1;
+    }
+
+    public function play(): TournamentService
+    {
+        $this->startRounds();
+        $this->endTournament();
+        return $this;
+    }
+
+    public function resultResource()
+    {
+        return new TournamentServiceResource($this->tournament);
     }
 
     private function start()
@@ -56,23 +70,29 @@ Class TournamentService {
 
     private function saveMatchPlayers()
     {
-        $matches = []; $winnerPlayers = [];
+        $matches = []; $playerWinners = [];
         for ($i=0; $i < $this->totalPlayers; $i+=2) {
-            $data = [
-                'schedule_id'   => $this->currentSchedule->id,
-                'player_one_id' => $this->players[$i]->id,
-                'player_two_id' => $this->players[$i+1]->id,
-                'date_start'    => now()->format('Y-m-d'),
-                'winner'        => collect(['one', 'two'])->random(),
-                'created_at'    => now(),
-                'updated_at'    => now()
-            ];
-            $player = $data['winner'] === 'one' ? $this->players[$i] : $this->players[$i+1];
-            array_push($winnerPlayers, $player);
-            array_push($matches, $data);
+            $gameService = new GameService($this->players[$i], $this->players[$i+1]);
+            $gameService->play();
+            $this->gameResult = $gameService->getResult();
+            array_push($playerWinners, $this->gameResult->player_winner);
+            array_push($matches, $this->dataMatchPlayer());
         }
         MatchPlayer::insert($matches);
-        $this->players = collect($winnerPlayers);
+        $this->players = collect($playerWinners);
+    }
+
+    private function dataMatchPlayer()
+    {
+        return [
+            'schedule_id'   => $this->currentSchedule->id,
+            'player_one_id' => $this->gameResult->player_one->id,
+            'player_two_id' => $this->gameResult->player_two->id,
+            'date_start'    => now()->format('Y-m-d'),
+            'winner'        => $this->gameResult->winner,
+            'created_at'    => now(),
+            'updated_at'    => now()
+        ];
     }
 
     private function endTournament()
@@ -80,18 +100,6 @@ Class TournamentService {
         $this->tournament->winner_id = $this->players[0]->id;
         $this->tournament->date_end = now()->format('Y-m-d');
         $this->tournament->save();
-    }
-
-    public function play(): TournamentService
-    {
-        $this->startRounds();
-        $this->endTournament();
-        return $this;
-    }
-
-    public function resultResource()
-    {
-        return new TournamentServiceResource($this->tournament);
     }
 
 }
