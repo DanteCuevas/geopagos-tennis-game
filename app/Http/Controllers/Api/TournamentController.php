@@ -36,7 +36,10 @@ class TournamentController extends Controller
 
     public function game(TournamentService $tournamentService)
     {
-        $tournamentService->play();
+        $gender = collect(['male', 'female'])->random();
+        $players = Player::gender($gender)->get()->shuffle();
+        
+        $tournamentService->setGender($gender)->setPlayers($players)->play();
         return $tournamentService->resultResource();
     }
 

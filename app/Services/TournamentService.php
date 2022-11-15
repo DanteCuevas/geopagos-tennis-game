@@ -2,31 +2,39 @@
 
 namespace App\Services;
 
-//use App\Services\GameService;
 use App\Models\Tournament;
-use App\Models\Player;
 use App\Models\MatchPlayer;
 use App\Http\Resources\Tournament\TournamentServiceResource;
 
 Class TournamentService {
 
     private $tournament;
+    private $gender;
     private $players;
-    private $totalPlayers;
     private $roundNumber;
     private $currentSchedule;
     private $gameResult;
 
     public function __construct()
     {
-        $this->tournament   = $this->start();
-        $this->players      = $this->getInitialPlayers();
-        $this->totalPlayers = $this->players->count();
         $this->roundNumber  = 1;
+    }
+
+    public function setPlayers($players): TournamentService
+    {
+        $this->players = $players;
+        return $this;
+    }
+
+    public function setGender($gender): TournamentService
+    {
+        $this->gender = $gender;
+        return $this;
     }
 
     public function play(): TournamentService
     {
+        $this->startTournament();
         $this->startRounds();
         $this->endTournament();
         return $this;
@@ -37,25 +45,19 @@ Class TournamentService {
         return new TournamentServiceResource($this->tournament);
     }
 
-    private function start()
+    private function startTournament()
     {
-        return Tournament::create([
+        $this->tournament = Tournament::create([
             'date_start'    => now()->format('Y-m-d'),
-            'gender'        => collect(['male', 'female'])->random()
+            'gender'        => $this->gender
         ]);
-    }
-
-    private function getInitialPlayers()
-    {
-        return Player::gender($this->tournament->gender)->get()->shuffle();
     }
 
     private function startRounds()
     {
-        while ($this->totalPlayers !== 1) {
+        while ($this->players->count() !== 1) {
             $this->saveSchedule();
             $this->saveMatchPlayers();
-            $this->totalPlayers = $this->totalPlayers/2;
             $this->roundNumber++;
         }
     }
@@ -71,7 +73,7 @@ Class TournamentService {
     private function saveMatchPlayers()
     {
         $matches = []; $playerWinners = [];
-        for ($i=0; $i < $this->totalPlayers; $i+=2) {
+        for ($i=0; $i < $this->players->count(); $i+=2) {
             $gameService = new GameService($this->players[$i], $this->players[$i+1]);
             $gameService->play();
             $this->gameResult = $gameService->getResult();
