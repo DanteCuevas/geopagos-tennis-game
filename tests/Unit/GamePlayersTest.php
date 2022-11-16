@@ -19,7 +19,7 @@ class GamePlayersTest extends TestCase
         $this->lowSkills = ['skill' => 1, 'strength' => 1, 'speed' => 1, 'reaction' => 1];
     }
 
-    public function test_get_winner_male_with_high_kills()
+    public function test_get_winner_male_with_high_skills()
     {
         $playerOne = Player::factory()->male()->create($this->highSkills);
         $playerTwo = Player::factory()->male()->create($this->lowSkills);
@@ -49,7 +49,7 @@ class GamePlayersTest extends TestCase
         $playerTwo->delete();
     }
 
-    public function test_get_winner_female_with_high_kills()
+    public function test_get_winner_female_with_high_skills()
     {
         $playerOne = Player::factory()->female()->create($this->highSkills);
         $playerTwo = Player::factory()->female()->create($this->lowSkills);
