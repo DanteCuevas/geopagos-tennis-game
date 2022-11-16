@@ -45,8 +45,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
  *              ),
  *              @OA\Property(
  *                  property="winner",
- *                  type="array",
- *                  @OA\Items(
+ *                  type="object",
  *                      @OA\Property(
  *                          property="id",
  *                          type="integer"
@@ -60,7 +59,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
  *                      @OA\Property(
  *                          property="gender"
  *                      )
- *                  )
  *              )
  *          )
  *      )

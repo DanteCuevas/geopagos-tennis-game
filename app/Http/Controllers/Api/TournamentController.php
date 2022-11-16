@@ -124,6 +124,24 @@ class TournamentController extends Controller
         return new TournamentShowResource($tournament);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/tournaments-game",
+     *      operationId="tournament-game",
+     *      tags={"TOURNAMENTS"},
+     *      summary="Game of a tournament",
+     *      description="Game of a tournament",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/TournamentServiceResource")
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      )
+     *     )
+     */
     public function game(TournamentService $tournamentService)
     {
         $gender = collect(['male', 'female'])->random();

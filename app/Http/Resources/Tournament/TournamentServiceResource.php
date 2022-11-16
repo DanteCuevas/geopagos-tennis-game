@@ -4,6 +4,65 @@ namespace App\Http\Resources\Tournament;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *      title="TournamentServiceResource",
+ *      description="Resource collection  game of tournament",
+ *      @OA\Xml(
+ *          name="TournamentServiceResource"
+ *      ),
+ *      @OA\Property(
+ *          property="success",
+ *          type="boolean",
+ *      ),
+ *      @OA\Property(
+ *          property="message",
+ *          type="string",
+ *      ),
+ *      @OA\Property(
+ *          property="data",
+ *          type="object",
+ *              @OA\Property(
+ *                  property="id",
+ *                  ref="#/components/schemas/Tournament/properties/id"
+ *              ),
+ *              @OA\Property(
+ *                  property="gender",
+ *                  ref="#/components/schemas/Tournament/properties/gender"
+ *              ),
+ *              @OA\Property(
+ *                  property="date_start",
+ *                  ref="#/components/schemas/Tournament/properties/date_start"
+ *              ),
+ *              @OA\Property(
+ *                  property="date_end",
+ *                  ref="#/components/schemas/Tournament/properties/date_end"
+ *              ),
+ *              @OA\Property(
+ *                  property="winner_id",
+ *                  ref="#/components/schemas/Tournament/properties/winner_id"
+ *              ),
+ *              @OA\Property(
+ *                  property="winner",
+ *                  type="object",
+ *                      @OA\Property(
+ *                          property="id",
+ *                          type="integer"
+ *                      ),
+ *                      @OA\Property(
+ *                          property="first_name"
+ *                      ),
+ *                      @OA\Property(
+ *                          property="last_name"
+ *                      ),
+ *                      @OA\Property(
+ *                          property="gender"
+ *                      )
+ *              )
+ *          )
+ *      )
+ * )
+ */
 class TournamentServiceResource extends JsonResource
 {
     /**
