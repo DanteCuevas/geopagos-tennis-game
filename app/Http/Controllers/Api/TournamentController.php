@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Tournament\TournamentIndexRequest;
 use App\Http\Resources\Tournament\TournamentIndexCollection;
+use App\Http\Resources\Tournament\TournamentShowResource;
 use App\Models\Tournament;
 use App\Models\Schedule;
 use App\Models\Player;
@@ -18,10 +19,10 @@ class TournamentController extends Controller
     /**
      * @OA\Get(
      *      path="/tournaments",
-     *      operationId="getProjectsList",
+     *      operationId="tournaments-index",
      *      tags={"TOURNAMENTS"},
      *      summary="Get list of tournaments",
-     *      description="Returns list of projects",
+     *      description="Get list of tournaments",
      *      @OA\Parameter(
      *          name="date_start",
      *          description="The date when start the tournament",
@@ -81,6 +82,33 @@ class TournamentController extends Controller
         return new TournamentIndexCollection($tournament);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/tournaments/{id}",
+     *      operationId="tournament-show",
+     *      tags={"TOURNAMENTS"},
+     *      summary="Show one tournament",
+     *      description="Show one tournament",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Id of the tournament",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/TournamentShowResource")
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      )
+     *     )
+     */
     public function show($id)
     {
         $tournament = Tournament::with([
@@ -93,7 +121,7 @@ class TournamentController extends Controller
 
         if(empty($tournament))
             return response()->json(['message'=>'Tournament does not exist'], 404);
-        return $tournament;
+        return new TournamentShowResource($tournament);
     }
 
     public function game(TournamentService $tournamentService)

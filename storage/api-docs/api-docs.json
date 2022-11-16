@@ -25,8 +25,8 @@
                     "TOURNAMENTS"
                 ],
                 "summary": "Get list of tournaments",
-                "description": "Returns list of projects",
-                "operationId": "getProjectsList",
+                "description": "Get list of tournaments",
+                "operationId": "tournaments-index",
                 "parameters": [
                     {
                         "name": "date_start",
@@ -81,10 +81,138 @@
                     }
                 }
             }
+        },
+        "/tournaments/{id}": {
+            "get": {
+                "tags": [
+                    "TOURNAMENTS"
+                ],
+                "summary": "Show one tournament",
+                "description": "Show one tournament",
+                "operationId": "tournament-show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the tournament",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TournamentShowResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "MatchPlayerTournamentCollection": {
+                "title": "MatchPlayerTournamentCollection",
+                "description": "Resource collection of match players for tournaments",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "schedule_id": {
+                        "type": "integer"
+                    },
+                    "player_one_id": {
+                        "type": "integer"
+                    },
+                    "player_two_id": {
+                        "type": "integer"
+                    },
+                    "date_start": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "winner": {
+                        "type": "string"
+                    },
+                    "player_one": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "first_name": {
+                                "type": "string"
+                            },
+                            "last_name": {
+                                "type": "string"
+                            },
+                            "gender": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "player_two": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "first_name": {
+                                "type": "string"
+                            },
+                            "last_name": {
+                                "type": "string"
+                            },
+                            "gender": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "MatchPlayerTournamentCollection"
+                }
+            },
+            "ScheduleTournamentCollection": {
+                "title": "ScheduleTournamentCollection",
+                "description": "Resource collection of schedule for tournaments",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "tournament_id": {
+                        "type": "integer"
+                    },
+                    "date_start": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "number": {
+                        "type": "integer"
+                    },
+                    "match_players": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MatchPlayerTournamentCollection"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ScheduleTournamentCollection"
+                }
+            },
             "TournamentIndexCollection": {
                 "title": "TournamentServiceCollection",
                 "description": "Resource collection of tournaments",
@@ -136,6 +264,59 @@
                 "type": "object",
                 "xml": {
                     "name": "TournamentServiceCollection"
+                }
+            },
+            "TournamentShowResource": {
+                "title": "TournamentShowResource",
+                "description": "Resource collection of tournament",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "properties": {
+                            "id": {
+                                "$ref": "#/components/schemas/Tournament/properties/id"
+                            },
+                            "gender": {
+                                "$ref": "#/components/schemas/Tournament/properties/gender"
+                            },
+                            "date_start": {
+                                "$ref": "#/components/schemas/Tournament/properties/date_start"
+                            },
+                            "date_end": {
+                                "$ref": "#/components/schemas/Tournament/properties/date_end"
+                            },
+                            "winner_id": {
+                                "$ref": "#/components/schemas/Tournament/properties/winner_id"
+                            },
+                            "winner": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "first_name": {},
+                                    "last_name": {},
+                                    "gender": {}
+                                },
+                                "type": "object"
+                            },
+                            "schedules": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/ScheduleTournamentCollection"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TournamentShowResource"
                 }
             },
             "Tournament": {
