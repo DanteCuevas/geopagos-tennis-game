@@ -6,6 +6,7 @@
 - Laravel version: 8.75
 - Default Port: 9099
 - Config DATABASE in .env
+- Swagger URL http://127.0.0.1:9099/api/documentation
 
 **Commands**
 - install: 
@@ -29,3 +30,4 @@ php artisan serve --host=0.0.0.0 --port=9099
 ```bash
 php artisan test
 ```
+![alt text](https://raw.githubusercontent.com/DanteCuevas/geopagos-tennis-game/main/public/tests.png)
