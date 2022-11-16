@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Tournament\TournamentIndexRequest;
 use App\Http\Resources\Tournament\TournamentIndexCollection;
 use App\Http\Resources\Tournament\TournamentShowResource;
+use App\Http\Resources\Tournament\TournamentServiceResource;
 use App\Models\Tournament;
 use App\Models\Schedule;
 use App\Models\Player;
@@ -125,7 +126,7 @@ class TournamentController extends Controller
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *      path="/tournaments-game",
      *      operationId="tournament-game",
      *      tags={"TOURNAMENTS"},
@@ -148,7 +149,7 @@ class TournamentController extends Controller
         $players = Player::gender($gender)->get()->shuffle();
 
         $tournamentService->setGender($gender)->setPlayers($players)->play();
-        return $tournamentService->resultResource();
+        return new TournamentServiceResource($tournamentService->getResult());
     }
 
 }

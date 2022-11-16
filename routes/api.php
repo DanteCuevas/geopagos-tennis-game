@@ -21,5 +21,5 @@ Route::apiResource('players', PlayerController::class)->except([
 ]);
 
 Route::get('tournaments',               [TournamentController::class, 'index'])->name('tournaments.index');
-Route::get('tournaments-game',          [TournamentController::class, 'game'])->name('tournaments.game');
+Route::post('tournaments-game',          [TournamentController::class, 'game'])->name('tournaments.game');
 Route::get('tournaments/{id}',          [TournamentController::class, 'show'])->name('tournaments.show');

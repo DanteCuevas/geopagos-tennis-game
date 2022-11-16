@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Tournament;
 use App\Models\MatchPlayer;
-use App\Http\Resources\Tournament\TournamentServiceResource;
 
 Class TournamentService {
 
@@ -40,9 +39,9 @@ Class TournamentService {
         return $this;
     }
 
-    public function resultResource()
+    public function getResult()
     {
-        return new TournamentServiceResource($this->tournament);
+        return $this->tournament;
     }
 
     private function startTournament()
