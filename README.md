@@ -13,6 +13,10 @@
 ```bash
 composer install
 ```
+- key generate: 
+```bash
+php artisan key:generate
+```
 - run: 
 ```bash
 php artisan migrate --seed
