@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Player;
 use Illuminate\Support\Facades\Log;
 
-Class GameService {
+class GameService {
 
     private $playerOne;
     private $playerTwo;

@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Tournament;
 use App\Models\MatchPlayer;
 
-Class TournamentService {
+class TournamentService {
 
     private $tournament;
     private $gender;
