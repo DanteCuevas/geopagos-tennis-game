@@ -125,17 +125,21 @@
         $('#normal').on('click', function() {
             selectSeat.forEach(value => {
                 console.log(value);
-                $('#liner-'+value).addClass( "normal" );
+                id = '#liner-'+value;
+                $(id).addClass( "normal" );
                 $(id).data( "status", 'normal' );
             });
+            selectSeat = [];
         });
 
         $('#inspect').on('click', function() {
             selectSeat.forEach(value => {
                 console.log(value);
-                $('#liner-'+value).addClass( "inspect" );
+                id = '#liner-'+value;
+                $(id).addClass( "inspect" );
                 $(id).data( "status", 'inspect' );
             });
+            selectSeat = [];
         });
 
         $('#save').on('click', function() {

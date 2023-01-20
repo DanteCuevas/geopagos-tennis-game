@@ -31,14 +31,16 @@ class LinerController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $report = 'REPORT-'.Str::uuid();
+        $orden = Liner::count(); $orden = $orden%30;
+        $report = 'REPORT-'.now()->toDateTimeString();
+        $report = str_replace(' ', '_', $report);
         $date = now();
         foreach ($data as $key => $seat) {
             $col = 1; $row = ($key + 1);
-            if ($key > 10){
+            if ($key >= 10){
                 $col = 2; $row = ($key + 1 - 10);
             }
-            if ($key > 20){
+            if ($key >= 20){
                 $col = 3; $row = ($key + 1 - 20);
             }
             $loc = 'F'.$col.'C'.$row;
@@ -48,7 +50,7 @@ class LinerController extends Controller
                 'date_report' => $date,
                 'status' => $seat['status'],
                 'location' => $loc,
-                'orden' => ($key+1)
+                'orden' => $orden
             ];
 
             Liner::create($seatData);

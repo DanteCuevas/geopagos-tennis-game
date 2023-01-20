@@ -28,7 +28,7 @@ class LinerController extends Controller
     {
         $liners = Liner::select('code_report', 'date_report')
             ->groupBy('code_report', 'date_report')
-            //->orderBy('date_report', 'desc')
+            ->orderBy('code_report', 'desc')
             ->get();
         //dd($liners->toArray());
         return view('liners.panel', compact('liners'));
@@ -39,7 +39,7 @@ class LinerController extends Controller
     */
     public function export($code)
     {
-        return Excel::download(new LinersExport($code), 'liners.xlsx');
+        return Excel::download(new LinersExport($code), $code.'.xlsx');
     }
 
     /**
