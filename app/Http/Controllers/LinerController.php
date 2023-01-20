@@ -20,11 +20,26 @@ class LinerController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function panel()
+    {
+        $liners = Liner::select('code_report', 'date_report')
+            ->groupBy('code_report', 'date_report')
+            //->orderBy('date_report', 'desc')
+            ->get();
+        //dd($liners->toArray());
+        return view('liners.panel', compact('liners'));
+    }
+
+    /**
     * @return \Illuminate\Support\Collection
     */
-    public function export()
+    public function export($code)
     {
-        return Excel::download(new LinersExport, 'liners.xlsx');
+        return Excel::download(new LinersExport($code), 'liners.xlsx');
     }
 
     /**

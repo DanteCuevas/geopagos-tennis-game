@@ -8,12 +8,20 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class LinersExport implements FromCollection, WithHeadings
 {
+    protected $codeReport;
+
+    public function __construct($codeReport)
+    {
+        $this->codeReport = $codeReport;
+    }
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return Liner::select("date_report", "code_report", "code", "status", "location")->get();
+        return Liner::select("date_report", "code_report", "code", "status", "location")
+            ->where('code_report', $this->codeReport)
+            ->get();
     }
 
     /**

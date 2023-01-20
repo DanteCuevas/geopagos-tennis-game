@@ -26,5 +26,6 @@ Route::controller(UserController::class)->group(function() {
 
 Route::controller(LinerController::class)->group(function() {
     Route::get('liners', 'index');
-    Route::get('liners-export', 'export')->name('liners.export');
+    Route::get('liners-panel', 'panel');
+    Route::get('liners-export/{code}', 'export')->name('liners.export');
 });
