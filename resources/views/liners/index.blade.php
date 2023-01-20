@@ -158,6 +158,7 @@
                 data: JSON.stringify(seats),
                 success: function (data) {
                     alert('Guardado correctamente!');
+                    location.reload();
                     //console.log('data: ', data);
                 }
             });
