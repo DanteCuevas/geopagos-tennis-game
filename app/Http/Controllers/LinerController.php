@@ -30,7 +30,6 @@ class LinerController extends Controller
             ->groupBy('code_report', 'date_report')
             ->orderBy('code_report', 'desc')
             ->get();
-        //dd($liners->toArray());
         return view('liners.panel', compact('liners'));
     }
 

@@ -287,8 +287,10 @@ $(document).ready(function(){
 								<label for="selectAll"></label>
 							</span>
 						</th>
-						<th>Codigo de reporte</th>
-						<th style="width: 200px;">Fecha de reporte</th>
+						<th>#</th>
+                        <th>Codigo de reporte</th>
+						<th>Fecha de reporte</th>
+                        <th>Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -300,10 +302,13 @@ $(document).ready(function(){
 								<label for="checkbox5"></label>
 							</span>
 						</td>
+                        <td>{{ ($key+1) }}</td>
 						<td>{{ $liner->code_report}}</td>
                         <td>{{ $liner->date_report}}</td>
 						<td>
-							<a href="{{ route('liners.export', $liner->code_report) }}" class="excel" download><i class="material-icons" data-toggle="tooltip" title="descagar">&#xE254;</i></a>
+							<a href="{{ route('liners.export', $liner->code_report) }}" class="edit" download>
+                                <i class="material-icons" data-toggle="tooltip" title="descagar">file_download</i>
+                            </a>
 						</td>
 					</tr>
                 @endforeach

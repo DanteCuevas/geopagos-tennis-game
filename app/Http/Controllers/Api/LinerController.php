@@ -31,7 +31,7 @@ class LinerController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $orden = Liner::count(); $orden = $orden%30;
+        $orden = Liner::count(); $orden = $orden/30;
         $report = 'REPORT-'.now()->toDateTimeString();
         $report = str_replace(' ', '_', $report);
         $date = now();
